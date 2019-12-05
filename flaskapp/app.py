@@ -17,6 +17,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'general.login'
 login_manager.login_message_category = 'info'
 
-# migrate = Migrate(app, db)
-# manager = Manager(app)
-# manager.add_command('db', MigrateCommand)
+migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
