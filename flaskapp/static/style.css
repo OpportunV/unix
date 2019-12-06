@@ -4,12 +4,37 @@ body {
   margin-top: 5rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #CCBCBC;
+.card {
+  background-color: inherit;
+}
+
+.content-segment {
+  background-color: #303135;
 }
 
 a {
   color: #A288A6;
+}
+
+.form-control, .form-control:focus {
+    background-color: #1C1D21;
+    color: #c2dac7;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #1C1D21 inset !important;
+}
+
+input:-webkit-autofill {
+    -webkit-text-fill-color: #c2dac7 !important;
+}
+
+textarea.form-control {
+  min-height: 350px;
+  height: auto;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -30,6 +55,11 @@ a {
   border: 1px solid #CCBCBC;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.hidden {
+  background-color: #30313559;
+  border: 1px dotted red;
 }
 
 .article-title {

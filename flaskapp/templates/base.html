@@ -1,67 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
-  <title>
-    {% block title %}{% endblock %} | UNIX
-  </title>
-</head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <div class="container">
-<!--      <a class="navbar-brand mr-4" href="#">Opp</a>-->
-<!--      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--      </button>-->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item {{ 'active' if request.endpoint == 'general.index' else '' }}">
-            <a class="nav-link" href="{{ url_for('general.index') }}">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Tasks</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Python</a>
-          </li>
-  <!--        <li class="nav-item">-->
-  <!--          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-  <!--        </li>-->
-        </ul>
-        <div class="navbar-nav">
-<!--          <a class="nav-item nav-link" href="#">Right</a>-->
-          {% if current_user.is_authenticated %}
-<!--          <a class="nav-item nav-link" href="#">Account</a>-->
-          <a class="nav-item nav-link" href="{{ url_for('general.logout') }}">Log Out</a>
-          {% else %}
-<!--          <a class="nav-item nav-link" href="{{ url_for('general.login') }}">Log In</a>-->
-          {% endif %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+    <title>
+      {% block title %}{% endblock %} | UNIX
+    </title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="navbar-nav ml-auto">
+            {% if current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="{{ url_for('general.new') }}">New Task</a>
+              <a class="nav-item nav-link" href="{{ url_for('general.logout') }}">Log Out</a>
+            {% endif %}
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
-  <main role="main" class="container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">
-            {{ message }}
+    </nav>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8 p-2">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
           </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-    <div class="row">
-      <div class="col-md-8 mx-auto">
-        {% block content %}{% endblock %}
+        <div class="col-md-4 p-2">
+          <div class="content-segment p-4">
+          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores illum magnam perspiciatis sit! Ab
+            atque blanditiis delectus eos ex illo, illum natus optio placeat provident, quis quos sit velit voluptatum?
+            Cum debitis eius eveniet excepturi facilis maiores neque pariatur praesentium quibusdam suscipit.
+            Dignissimos doloribus dolorum eaque, earum et explicabo harum ipsam ipsum minus natus odit reiciendis sapiente
+            sed veritatis vitae.
+            Accusantium alias blanditiis consectetur consequatur delectus deleniti deserunt, dignissimos dolor dolorem,
+            ea enim esse explicabo fugit ipsam maiores modi nam nesciunt officiis omnis porro provident, quidem quos
+            similique unde voluptates.
+            Ab accusamus aliquam aliquid cumque delectus dolore dolorum ea eaque earum eius, fuga iure laboriosam magni
+            nemo neque nesciunt, nostrum, nulla possimus reprehenderit sunt. Aspernatur iure nam possimus suscipit
+            tempora.
+            <br>
+            Expedita qui, ut! Animi consequuntur, deserunt dolorum ea facilis, harum, numquam quasi sed sint suscipit
+            tempore ullam unde. Accusantium at autem commodi cupiditate ea excepturi laborum perferendis quis repudiandae
+            vitae.
+          </div>
+        </div>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
 </html>
