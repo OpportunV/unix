@@ -42,7 +42,7 @@
     </nav>
     <main role="main" class="container">
       <div class="row">
-        <div class="col-md-8 p-2">
+        <div class="col-md-8 mx-auto p-2">
             {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
                 {% for category, message in messages %}
@@ -52,27 +52,29 @@
                 {% endfor %}
               {% endif %}
             {% endwith %}
-            {% block content %}{% endblock %}
-          </div>
-        <div class="col-md-4 p-2">
-          <div class="content-segment p-4">
-          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores illum magnam perspiciatis sit! Ab
-            atque blanditiis delectus eos ex illo, illum natus optio placeat provident, quis quos sit velit voluptatum?
-            Cum debitis eius eveniet excepturi facilis maiores neque pariatur praesentium quibusdam suscipit.
-            Dignissimos doloribus dolorum eaque, earum et explicabo harum ipsam ipsum minus natus odit reiciendis sapiente
-            sed veritatis vitae.
-            Accusantium alias blanditiis consectetur consequatur delectus deleniti deserunt, dignissimos dolor dolorem,
-            ea enim esse explicabo fugit ipsam maiores modi nam nesciunt officiis omnis porro provident, quidem quos
-            similique unde voluptates.
-            Ab accusamus aliquam aliquid cumque delectus dolore dolorum ea eaque earum eius, fuga iure laboriosam magni
-            nemo neque nesciunt, nostrum, nulla possimus reprehenderit sunt. Aspernatur iure nam possimus suscipit
-            tempora.
-            <br>
-            Expedita qui, ut! Animi consequuntur, deserunt dolorum ea facilis, harum, numquam quasi sed sint suscipit
-            tempore ullam unde. Accusantium at autem commodi cupiditate ea excepturi laborum perferendis quis repudiandae
-            vitae.
-          </div>
+          {% block content %}{% endblock %}
         </div>
+        {% if current_user.is_authenticated %}
+          <div class="col-md-4 p-2">
+            <div class="content-segment p-4">
+            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores illum magnam perspiciatis sit! Ab
+              atque blanditiis delectus eos ex illo, illum natus optio placeat provident, quis quos sit velit voluptatum?
+              Cum debitis eius eveniet excepturi facilis maiores neque pariatur praesentium quibusdam suscipit.
+              Dignissimos doloribus dolorum eaque, earum et explicabo harum ipsam ipsum minus natus odit reiciendis sapiente
+              sed veritatis vitae.
+              Accusantium alias blanditiis consectetur consequatur delectus deleniti deserunt, dignissimos dolor dolorem,
+              ea enim esse explicabo fugit ipsam maiores modi nam nesciunt officiis omnis porro provident, quidem quos
+              similique unde voluptates.
+              Ab accusamus aliquam aliquid cumque delectus dolore dolorum ea eaque earum eius, fuga iure laboriosam magni
+              nemo neque nesciunt, nostrum, nulla possimus reprehenderit sunt. Aspernatur iure nam possimus suscipit
+              tempora.
+              <br>
+              Expedita qui, ut! Animi consequuntur, deserunt dolorum ea facilis, harum, numquam quasi sed sint suscipit
+              tempore ullam unde. Accusantium at autem commodi cupiditate ea excepturi laborum perferendis quis repudiandae
+              vitae.
+            </div>
+          </div>
+        {% endif %}
         </div>
       </div>
     </main>

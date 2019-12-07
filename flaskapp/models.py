@@ -32,6 +32,7 @@ class Task(db.Model):
     title = db.Column(db.String(100), nullable=False)
     date_added = db.Column(db.DateTime, nullable=False)
     content = db.Column(db.Text, nullable=False)
+    solution = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     link = db.Column(db.String(120), unique=True)
     is_active = db.Column(db.Boolean, default=False)

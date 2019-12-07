@@ -21,6 +21,9 @@
             {{ task.content }}
           </div>
           {% if current_user.is_admin %}
+          <div class="card-body">
+            {{ task.solution }}
+          </div>
           <div class="row">
             <div class="col ml-2 mt-auto">
               <small class="text-muted">{{ task.date_added.strftime('%Y.%m.%d %H:%M:%S') }}</small>
@@ -32,7 +35,7 @@
               <a href="{{ url_for('general.task_update', link=task.link) }}"
                class="btn btn-secondary btn-sm mt-1 mb-1">Update</a>
               <button type="button" class="btn btn-danger btn-sm m-1"
-                      data-toggle="modal" data-target="#deleteModal">Delete</button>
+                      data-toggle="modal" data-target="#deleteModal{{task.id}}">Delete</button>
             </div>
           </div>
           {% endif %}
@@ -40,12 +43,12 @@
       </div>
 
     <!-- Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  <div class="modal fade" id="deleteModal{{task.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{task.id}}Label"
        aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Task?</h5>
+          <h5 class="modal-title" id="deleteModal{{task.id}}Label">Delete Task?</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

@@ -32,9 +32,17 @@ input:-webkit-autofill {
     -webkit-text-fill-color: #c2dac7 !important;
 }
 
-textarea.form-control {
+textarea.task-content {
   min-height: 350px;
   height: auto;
+}
+textarea.task-solution {
+  min-height: 100px;
+  height: auto;
+}
+
+.modal-content {
+  color: #222;
 }
 
 .site-header .navbar-nav .nav-link {

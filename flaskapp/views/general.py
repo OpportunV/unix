@@ -63,6 +63,7 @@ def new():
     if form.validate_on_submit():
         task = Task(title=form.title.data,
                     content=form.content.data,
+                    solution=form.solution.data,
                     is_active=form.is_active.data,
                     author=current_user)
         db.session.add(task)
@@ -89,6 +90,7 @@ def task_update(link):
     if form.validate_on_submit():
         task.title = form.title.data
         task.content = form.content.data
+        task.solution = form.solution.data
         task.is_active = form.is_active.data
         db.session.commit()
         flash('Task has been updated.', 'success')
@@ -97,6 +99,7 @@ def task_update(link):
     if request.method == 'GET':
         form.title.data = task.title
         form.content.data = task.content
+        form.solution.data = task.solution
         form.is_active.data = task.is_active
     
     return render_template('general/new.html', title='Update Task', form=form)

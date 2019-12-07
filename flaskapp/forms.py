@@ -17,6 +17,7 @@ class LoginForm(FlaskForm):
 class TaskForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
+    solution = TextAreaField('Solution', validators=[DataRequired()])
     is_active = BooleanField('Show')
     submit = SubmitField('Submit')
 

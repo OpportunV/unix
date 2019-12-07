@@ -10,42 +10,42 @@
       <div class="card mb-2">
         <div class="card-header m-0 p-0" id="heading{{ user.id }}">
 
-            <button class="btn {{ 'btn-secondary' if user.is_active else 'btn-danger' }} btn-lg btn-block text-left"
+            <button class="btn {{ 'btn-dark' if user.is_active else 'btn-danger' }} btn-lg btn-block text-center"
                     type="button" data-toggle="collapse" data-target="#collapse{{ user.id }}" aria-expanded="false"
-                    aria-controls="collapse{{ user.id }}">
+                    aria-controls="collapse{{ user.id }}" disabled>
               {{ user.username }}
             </button>
 
         </div>
 
-        <div id="collapse{{ user.id }}" class="content-segment collapse"
+        <div id="collapse{{ user.id }}" class="content-segment collapse show"
              aria-labelledby="heading{{ user.id }}" data-parent="#accordionTasks">
           <div class="row">
-            <div class="col text-left">
+            <div class="col text-center">
               <button type="button"
-                      class="btn {{ 'btn-success' if user.is_active else 'btn-secondary' }} btn-sm m-1" disabled>
+                      class="btn {{ 'btn-success' if user.is_active else 'btn-secondary' }} btn-sm mt-2 mb-2" disabled>
                 {{ 'active' if user.is_active else 'hidden' }}
               </button>
               <button type="button"
-                      class="btn {{ 'btn-success' if user.is_admin else 'btn-secondary' }} btn-sm m-1" disabled>
+                      class="btn {{ 'btn-success' if user.is_admin else 'btn-secondary' }} btn-sm mt-2 mb-2" disabled>
                 {{ 'admin' if user.is_admin else 'user' }}
               </button>
               <a href="{{ url_for('general.user_update', id=user.id) }}"
-               class="btn btn-secondary btn-sm m-1">Update</a>
-              <button type="button" class="btn btn-danger btn-sm m-1"
-                      data-toggle="modal" data-target="#deleteModal">Delete</button>
+               class="btn btn-secondary btn-sm mt-2 mb-2">Update</a>
+              <button type="button" class="btn btn-danger btn-sm mt-2 mb-2"
+                      data-toggle="modal" data-target="#deleteModal{{user.id}}">Delete</button>
             </div>
           </div>
         </div>
       </div>
 
     <!-- Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  <div class="modal fade" id="deleteModal{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModal{{user.id}}Label"
        aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete User?</h5>
+          <h5 class="modal-title" id="deleteModal{{user.id}}Label">Delete User?</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
