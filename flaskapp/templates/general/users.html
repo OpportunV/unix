@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="accordion" id="accordionTasks">
+    {% for user in users %}
+      <div class="card mb-2">
+        <div class="card-header m-0 p-0" id="heading{{ user.id }}">
+
+            <button class="btn {{ 'btn-secondary' if user.is_active else 'btn-danger' }} btn-lg btn-block text-left"
+                    type="button" data-toggle="collapse" data-target="#collapse{{ user.id }}" aria-expanded="false"
+                    aria-controls="collapse{{ user.id }}">
+              {{ user.username }}
+            </button>
+
+        </div>
+
+        <div id="collapse{{ user.id }}" class="content-segment collapse"
+             aria-labelledby="heading{{ user.id }}" data-parent="#accordionTasks">
+          <div class="row">
+            <div class="col text-left">
+              <button type="button"
+                      class="btn {{ 'btn-success' if user.is_active else 'btn-secondary' }} btn-sm m-1" disabled>
+                {{ 'active' if user.is_active else 'hidden' }}
+              </button>
+              <button type="button"
+                      class="btn {{ 'btn-success' if user.is_admin else 'btn-secondary' }} btn-sm m-1" disabled>
+                {{ 'admin' if user.is_admin else 'user' }}
+              </button>
+              <a href="{{ url_for('general.user_update', id=user.id) }}"
+               class="btn btn-secondary btn-sm m-1">Update</a>
+              <button type="button" class="btn btn-danger btn-sm m-1"
+                      data-toggle="modal" data-target="#deleteModal">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete User?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="{{ url_for('general.user_delete', id=user.id) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    {% endfor %}
+  </div>
+
+{% endblock %}

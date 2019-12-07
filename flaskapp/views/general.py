@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request, Blueprint
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user
 
 from flaskapp.app import bcrypt, db
-from flaskapp.forms import LoginForm, TaskForm
+from flaskapp.forms import LoginForm, TaskForm, CreateUserForm, UpdateUserForm
 from flaskapp.models import User, Task
 
 
@@ -18,9 +18,9 @@ def before_request():
 @bp.route('/')
 def index():
     if current_user.is_admin:
-        tasks = Task.query.all()
+        tasks = Task.query.order_by(Task.date_added.desc())
     else:
-        tasks = Task.query.filter_by(is_active=True)
+        tasks = Task.query.filter_by(is_active=True).order_by(Task.date_added.desc())
     return render_template('general/index.html', title='Задания', tasks=tasks)
 
 
@@ -32,6 +32,10 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
+        
+        if not user.is_active:
+            flash('User is deactivated', 'danger')
+            return render_template('general/login.html', title='Login', form=form)
         
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
@@ -64,7 +68,7 @@ def new():
         db.session.add(task)
         db.session.commit()
         flash('Task has been created!', 'success')
-        return redirect(url_for('general.index', link=task.link))
+        return redirect(url_for('general.index'))
     return render_template('general/new.html', title='New Task', form=form)
 
 
@@ -88,7 +92,7 @@ def task_update(link):
         task.is_active = form.is_active.data
         db.session.commit()
         flash('Task has been updated.', 'success')
-        return redirect(url_for('general.index', link=task.link))
+        return redirect(url_for('general.index'))
     
     if request.method == 'GET':
         form.title.data = task.title
@@ -116,7 +120,86 @@ def task_delete(link):
     flash('Task has been deleted.', 'success')
     return redirect(url_for('general.index'))
 
-# @bp.route('/account')
-# @login_required
-# def account():
-#     return render_template('account.html', title='Account')
+
+@bp.route('/users')
+def users():
+    if current_user.id != 1:
+        flash(f'You are not allowed to go there.', 'error')
+        return redirect(url_for('general.index'))
+    
+    _users = User.query.filter(User.id > 1)
+    
+    return render_template('general/users.html', title='Users', users=_users)
+
+
+@bp.route('/add_user', methods=['GET', 'POST'])
+def user_add():
+    if current_user.id != 1:
+        flash(f'You are not allowed to go there.', 'error')
+        return redirect(url_for('general.index'))
+    
+    form = CreateUserForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data,
+                    password=form.password.data,
+                    is_admin=form.is_admin.data,
+                    is_active=form.is_active.data,
+                    )
+        db.session.add(user)
+        db.session.commit()
+        flash('User has been created!', 'success')
+        return redirect(url_for('general.index'))
+    return render_template('general/add_user.html', title='Add User', form=form)
+
+
+@bp.route('/<id>/user_update', methods=['GET', 'POST'])
+def user_update(id):
+    if current_user.id != 1:
+        flash(f'You are not allowed to edit tasks.', 'error')
+        return redirect(url_for('general.index'))
+    
+    user = User.query.get(id)
+    
+    if not user:
+        flash('User not found', 'warning')
+        return redirect(url_for('general.index'))
+    
+    form = UpdateUserForm()
+    
+    if form.validate_on_submit():
+        if form.username.data != user.username and not User.query.filter_by(username=form.username.data).first():
+            user.username = form.username.data
+        if form.password.data:
+            user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.is_active = form.is_active.data
+        user.is_admin = form.is_admin.data
+        db.session.commit()
+        flash('User has been updated.', 'success')
+        return redirect(url_for('general.index'))
+    
+    if request.method == 'GET':
+        form.username.data = user.username
+        form.password.date = user.password
+        form.is_active.data = user.is_active
+        form.is_admin.data = user.is_admin
+    
+    return render_template('general/add_user.html', title='Update User', form=form)
+
+
+@bp.route('/<id>/user_delete', methods=['POST'])
+def user_delete(id):
+    if current_user.id != 1:
+        flash(f'You are not allowed to go there.', 'error')
+        return redirect(url_for('general.index'))
+    
+    user = User.query.get(id)
+    
+    if not user:
+        flash('user not found', 'warning')
+        return redirect(url_for('general.index'))
+    
+    db.session.delete(user)
+    db.session.commit()
+    
+    flash('User has been deleted.', 'success')
+    return redirect(url_for('general.index'))

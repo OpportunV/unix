@@ -12,13 +12,29 @@
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+          {% if current_user.id == 1%}
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item {{ 'active' if request.endpoint == 'general.users' else '' }}">
+                <a class="nav-link" href="{{ url_for('general.users') }}">Пользователи <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item {{ 'active' if request.endpoint == 'general.user_add' else '' }}">
+                <a class="nav-link" href="{{ url_for('general.user_add') }}">+ Добавить пользователя <span class="sr-only">(current)</span></a>
+              </li>
+
+            </ul>
+          {% endif %}
           <div class="navbar-nav ml-auto">
             {% if current_user.is_authenticated %}
               {% if current_user.is_admin %}
-                <a class="nav-item nav-link" href="{{ url_for('general.new') }}">New Task</a>
+                <a class="nav-item nav-link" href="{{ url_for('general.index') }}">Задания</a>
+                <a class="nav-item nav-link" href="{{ url_for('general.new') }}">+ Добавить задание</a>
               {% endif %}
-                <a class="nav-item nav-link" href="{{ url_for('general.logout') }}">Log Out</a>
+                <a class="nav-item nav-link" href="{{ url_for('general.logout') }}">Выход</a>
             {% endif %}
           </div>
         </div>
