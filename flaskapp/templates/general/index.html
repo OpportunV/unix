@@ -18,11 +18,11 @@
 
         <div id="collapse{{ task.id }}" class="content-segment collapse" aria-labelledby="heading{{ task.id }}" data-parent="#accordionTasks">
           <div class="card-body">
-            {{ task.content }}
+            {{ task.content|safe }}
           </div>
           {% if current_user.is_admin %}
           <div class="card-body">
-            {{ task.solution }}
+            {{ task.solution|safe }}
           </div>
           <div class="row">
             <div class="col ml-2 mt-auto">
